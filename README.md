@@ -10,7 +10,7 @@ Plantilla para /pipelines/ usando ~Luigi~
 ** Prerequisitos
 
 - =docker=
-- =ag=
+- =rg=
 - =hub=
 - =git flow=
 - =docker-compose=
@@ -29,7 +29,7 @@ curl -fsSL https://raw.githubusercontent.com/nanounanue/pipeline-template/master
 1. Crea 5 nodos usando =docker-machine=, por ejemplo usando =virtualbox= como
    =driver=
 
-#+BEGIN_SRC sh 
+#+BEGIN_SRC sh
 export MACHINE_DRIVER=virtualbox
 for N in $(seq 1 5); do
    docker-machine create node$N
@@ -39,7 +39,7 @@ done
 2. Crea un =swarm=
 
 
-#+BEGIN_SRC sh 
+#+BEGIN_SRC sh
 eval $(docker-machine env node1)
 
 docker swarm init --advertise-addr $(docker-machine ip node1)
@@ -61,7 +61,7 @@ docker node ls
 
 3. Crea un =registry= local al =swarm=
 
-#+BEGIN_SRC sh 
+#+BEGIN_SRC sh
  docker service create --name registry --publish 5000:5000 registry:2
 #+END_SRC
 
@@ -70,20 +70,20 @@ docker node ls
 
 4. Registra las imágenes contenidas en =infraestructura=
 
-#+BEGIN_SRC sh 
-infraestructura/registrar.sh 
+#+BEGIN_SRC sh
+infraestructura/registrar.sh
 #+END_SRC
 
 
-4. Instala y ejecuta el pipeline 
+4. Instala y ejecuta el pipeline
 
 
 
 
-#+BEGIN_SRC sh 
-make setup 
+#+BEGIN_SRC sh
+make setup
 
-make run 
+make run
 #+END_SRC
 
 
@@ -107,4 +107,4 @@ make run
 
 ** Agradecimientos
 
- - Plantilla de [[https://gist.github.com/PurpleBooth/109311bb0361f32d87a2][README]] 
+ - Plantilla de [[https://gist.github.com/PurpleBooth/109311bb0361f32d87a2][README]]

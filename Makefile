@@ -1,11 +1,12 @@
 ########################################
 # Makefile for pipeline
-# Version 0.1
+# Version 0.2
 # Adolfo De Unánue
-# 11 de marzo de 2017
+# Ollin Langle
+# 1 de octubre de 2018
 ########################################
 
-.PHONY: clean data lint init deps sync_to_s3 sync_from_s3
+.PHONY: clean data lint init deps sync_to_s3 sync_from_s3 sync_to_gs sync_from_gs
 
 ########################################
 ##            Variables               ##
@@ -20,7 +21,10 @@ VERSION_PYTHON:=$(shell cat .python-version)
 ## Bucket de amazon
 S3_BUCKET := s3://$(PROJECT_NAME)/
 
-SHELL := /bin/bash 
+## Bucket de Google
+GS_BUCKET := gs://$(PROJECT_NAME)/
+
+SHELL := /bin/bash
 
 ########################################
 ##            Ayuda                   ##
@@ -130,13 +134,17 @@ todo:         ##@docs ¿Qué falta por hacer?
 ##             de Datos               ##
 ########################################
 
-
 sync_to_s3: ##@data Sincroniza los datos hacia AWS S3
 	@aws s3 sync data/ s3://$(S3_BUCKET)/data/
 
-
 sync_from_s3: ##@data Sincroniza los datos desde AWS S3
 	@aws s3 sync s3://$(S3_BUCKET)/data/ data/
+
+sync_to_gs: ##@data Sincroniza los datos hacia GCP GS
+	@gsutil -m rsync -R data/ gs://$(GS_BUCKET)/data/
+
+sync_from_gs: ##@data Sincroniza los datos desde GCP GS
+	@gsutil -m rsync -R gs://$(GS_BUCKET)/data/ data/
 
 ########################################
 ##      Tareas del Proyecto           ##
@@ -149,11 +157,9 @@ setup: build install ##@proyecto Crea las imágenes del pipeline e instala el pi
 
 remove: uninstall  ##@proyecto Destruye la imágenes del pipeline y desinstala el pipeline del PYTHONPATH
 	$(MAKE) --directory=$(PROJECT_NAME) clean
-
-
-set_project_name: ##@proyecto Renombra el proyecto de dpa_test a PROJECT_NAME (requiere ag 'silver searcher')
+set_project_name: ##@proyecto Renombra el proyecto de dpa_test a PROJECT_NAME (requiere rg 'ripgrep')
   ## Basado en http://stackoverflow.com/a/39284776/754176
-	@ag [dD]ummy -l0 | xargs -0 sed -i  "s/[dD]ummy/${PROJECT_NAME}/g"
+	@rg [dD]ummy -l0 | xargs -0 sed -i  "s/[dD]ummy/${PROJECT_NAME}/g"
   ## Renombrar la carpeta del proyecto
 	@if [ -d dummy ] ; then \
      mv dummy/pipelines/dummy.py dummy/pipelines/$(PROJECT_NAME).py ; \
@@ -204,7 +210,7 @@ HELP_FUN = \
 ## Verificando dependencias
 ## Basado en código de Fernando Cisneros @ datank
 
-EXECUTABLES = docker docker-compose docker-machine pyenv ag pip hub
+EXECUTABLES = docker docker-compose docker-machine pyenv rg pip hub
 TEST_EXEC := $(foreach exec,$(EXECUTABLES),\
 				$(if $(shell which $(exec)), some string, $(error "${BOLD}${RED}ERROR${RESET}: No está $(exec) en el PATH, considera revisar Google para instalarlo (Quizá 'apt-get install $(exec)' funcione...)")))
 

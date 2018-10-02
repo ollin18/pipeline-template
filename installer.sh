@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 while getopts ":p:u:" opt; do
     case $opt in
         p) PROJECT_NAME="$OPTARG"
@@ -14,7 +15,7 @@ git init ${PROJECT_NAME}
 
 cd ${PROJECT_NAME}
 
-git remote add "template" https://github.com/nanounanue/pipeline-template.git
+git remote add "template" https://github.com/ollin18/pipeline-template.git
 
 git pull template master
 

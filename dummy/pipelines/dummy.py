@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Dummy Pipeline 
+Dummy Pipeline
 
 .. module:: dummy
 
@@ -21,6 +21,7 @@ import datetime
 
 import luigi
 import luigi.s3
+import luigi.gcs
 
 import sqlalchemy
 
@@ -44,7 +45,7 @@ import dummy.pipelines.common
 
 class DummyPipeline(luigi.WrapperTask):
     """
-    Task principal para el pipeline 
+    Task principal para el pipeline
     """
 
     def requires(self):
@@ -59,7 +60,7 @@ class RTask(luigi.Task):
 
     def run(self):
         cmd = '''
-              docker run --rm --network dummy_net -v dummy_store:/dummy/data  dummy/test-r 
+              docker run --rm --network dummy_net -v dummy_store:/dummy/data  dummy/test-r
         '''
 
         logger.debug(cmd)
