@@ -19,11 +19,11 @@ Plantilla para /pipelines/ usando ~Luigi~
 ** Instalando
 
 
-1. Copia el template a un repositorio  tuyo (en el ejemplo *nanounanue*, e.g. mi
+1. Copia el template a un repositorio  tuyo (en el ejemplo *ollin18*, e.g. mi
    usuario de github) especificando el nombre del proyecto que quieres (en el ejemplo, *jitomate*)
 
 #+BEGIN_SRC sh
-curl -fsSL https://raw.githubusercontent.com/nanounanue/pipeline-template/master/installer.sh | bash -- /dev/stdin -p jitomate -u nanounanue
+curl -fsSL https://raw.githubusercontent.com/ollin18/pipeline-template/master/installer.sh | bash -- /dev/stdin -p jitomate -u ollin18
 #+END_SRC
 
 1. Crea 5 nodos usando =docker-machine=, por ejemplo usando =virtualbox= como

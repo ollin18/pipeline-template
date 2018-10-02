@@ -14,12 +14,14 @@ with open(path.join(here, 'README.org'), encoding='utf-8') as f:
 
 setup(
     name="dummy",
-    version='0.0.1',
+    version='0.0.2',
     description='Pipeline Dummy',
     long_description=long_description,
-    url='https://github.com/nanounanue/pipeline-template',
+    url='https://github.com/ollin18/pipeline-template',
     author='Adolfo De Unánue',
     author_email='nanounanue@gmail.com',
+    maintainer='Ollin Demian',
+    maintainer_email='ollin.langle@ciencias.unam.mx',
     license='GPL v3',
 
     packages=find_packages(),
